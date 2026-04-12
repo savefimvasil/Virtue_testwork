@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useSlots } from 'vue'
+import { Comment, computed, useSlots } from 'vue'
 
 defineProps<{
   title?: string
@@ -8,6 +8,10 @@ defineProps<{
 }>()
 
 const slots = useSlots()
+
+const hasErrorSlotContent = computed(() => {
+  return slots.error?.length
+})
 </script>
 
 <template>
@@ -18,7 +22,7 @@ const slots = useSlots()
       {{ loadingMessage ?? 'Loading...' }}
     </p>
 
-    <slot v-else-if="slots.error" name="error"></slot>
+    <slot v-else-if="hasErrorSlotContent" name="error"></slot>
 
     <slot v-else name="content"></slot>
   </div>

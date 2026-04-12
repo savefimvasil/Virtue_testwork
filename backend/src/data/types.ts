@@ -1,9 +1,12 @@
 export type Employee = {
   id: string;
   name: string;
-  department: string;
-  riskLevel: string;
+  department: Department;
+  riskLevel: EmployeeRiskLevel;
 };
+
+export type EmployeeRiskLevel = 'low' | 'medium' | 'high';
+export type Department = 'Engineering' |'Finance' | 'Marketing' | 'Operations' | 'HR'
 
 export type SuggestionStatus =
   | 'pending'

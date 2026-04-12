@@ -14,8 +14,14 @@ export class EmployeesController {
     return this.employeesService.getEmployees();
   }
 
+  @Get(':employeeId')
+  getEmployeeById(@Param('employeeId') employeeId: string) {
+    return this.employeesService.getEmployeeById(employeeId)
+  }
+
   @Get(':employeeId/suggestions')
   getEmployeeSuggestions(@Param('employeeId') employeeId: string) {
+    console.log(employeeId);
     return this.suggestionsService.getSuggestionsByEmployeeId(employeeId);
   }
 }

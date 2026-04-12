@@ -1,16 +1,50 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
 
-import Card from '@/components/base/Card.vue'
+import BaseCard from '@/components/base/BaseCard.vue'
+import BaseTable from '@/components/base/BaseTable.vue'
+import RiskLevelBadge from '@/components/employees/RiskLevelBadge.vue'
 import type { Employee } from '@/assets/types/employee'
 import { ApiError, api } from '@/plugins/api'
 import { useLogging } from '@/composables/useLogging'
+import BaseButton from '@/components/base/BaseButton.vue'
 
 const employees = ref<Employee[]>([])
 const isLoading = ref(false)
 const errorMessage = ref('')
 
+const router = useRouter()
 const { logError } = useLogging()
+
+const headers = {
+  name: 'Name',
+  department: 'Department',
+  riskLevel: 'Risk level',
+  pendingSuggestionsCount: 'Pending suggestions',
+  actions: 'Actions',
+}
+
+const tableData = computed(() =>
+  employees.value.map((employee) => ({
+    name: employee.name,
+    department: employee.department,
+    riskLevel: {
+      component: RiskLevelBadge,
+      props: {
+        level: employee.riskLevel,
+      },
+    },
+    pendingSuggestionsCount: employee.pendingSuggestionsCount,
+    actions: {
+      component: BaseButton,
+      props: {
+        url: router.resolve({ name: 'employee-suggestions', params: { employeeId: employee.id } }).href,
+        label: 'Open Employee',
+      },
+    },
+  })),
+)
 
 const loadEmployees = async () => {
   isLoading.value = true
@@ -32,31 +66,18 @@ const loadEmployees = async () => {
 }
 
 ;(() => {
-  loadEmployees()
+  void loadEmployees()
 })()
 </script>
 
 <template>
-  <Card
+  <BaseCard
     title="Employees"
     :is-loading="isLoading"
     loading-message="Loading employees..."
   >
     <template #content>
-      <ul class="space-y-3">
-        <li
-          v-for="employee in employees"
-          :key="employee.id"
-          class="rounded-2xl border border-border bg-white p-4"
-        >
-          <p class="font-medium text-text-primary">
-            {{ employee.name }}
-          </p>
-          <p class="text-sm text-text-secondary">
-            {{ employee.department }}
-          </p>
-        </li>
-      </ul>
+      <BaseTable :headers="headers" :data="tableData" />
     </template>
 
     <template #error v-if="errorMessage || !employees.length">
@@ -64,5 +85,5 @@ const loadEmployees = async () => {
         {{ errorMessage || 'No employees found.' }}
       </p>
     </template>
-  </Card>
+  </BaseCard>
 </template>
