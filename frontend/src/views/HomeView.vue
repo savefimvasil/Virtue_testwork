@@ -29,24 +29,26 @@ const headers = computed(() => {
 })
 
 const tableData = computed(() =>
-  employees.value.map((employee) => ({
-    name: employee.name,
-    department: employee.department,
-    riskLevel: {
-      component: LevelBadge,
-      props: {
-        level: employee.riskLevel,
+  employees.value.map((employee) => {
+    return {
+      name: employee.name,
+      department: employee.department,
+      riskLevel: {
+        component: LevelBadge,
+        props: {
+          level: employee.riskLevel,
+        },
       },
-    },
-    pendingSuggestionsCount: employee.pendingSuggestionsCount,
-    actions: {
-      component: BaseButton,
-      props: {
-        url: router.resolve({ name: 'employee-suggestions', params: { employeeId: employee.id } }).href,
-        label: 'Open Employee',
+      pendingSuggestionsCount: employee.pendingSuggestionsCount,
+      actions: {
+        component: BaseButton,
+        props: {
+          url: router.resolve({ name: 'employee-suggestions', params: { employeeId: employee.id } }).href,
+          label: 'Open Employee',
+        },
       },
-    },
-  })),
+    }
+  }).sort((a, b) => a.name.localeCompare(b.name))
 )
 
 const loadEmployees = async () => {
