@@ -66,7 +66,7 @@ const loadEmployees = async () => {
 }
 
 ;(() => {
-  void loadEmployees()
+  loadEmployees()
 })()
 </script>
 

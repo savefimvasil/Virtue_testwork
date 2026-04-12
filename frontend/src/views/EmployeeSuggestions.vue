@@ -39,6 +39,10 @@ const loadSuggestions = async () => {
     logError(error)
   }
 }
+
+;(() => {
+  loadSuggestions()
+})()
 </script>
 
 <template>

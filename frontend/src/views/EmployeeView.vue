@@ -54,13 +54,9 @@ const loadEmployee = async () => {
   }
 }
 
-watch(
-  employeeId,
-  () => {
-    void loadEmployee()
-  },
-  { immediate: true },
-)
+;(() => {
+  loadEmployee()
+})()
 </script>
 
 <template>

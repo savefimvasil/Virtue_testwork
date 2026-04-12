@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Comment, computed, useSlots } from 'vue'
+import { computed, useSlots } from 'vue'
 
 defineProps<{
   title?: string
