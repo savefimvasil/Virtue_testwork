@@ -1,0 +1,24 @@
+@config "../../../tailwind.config.ts";
+
+@import "tailwindcss";
+
+@layer base {
+  body {
+    @apply text-text-primary;
+  }
+}
+
+@utility container {
+  margin-inline: auto;
+  width: 100%;
+  padding-inline: 16px;
+
+  @media (min-width: 1280px) {
+    width: 1124px;
+    padding-inline: 0;
+  }
+
+  @media (min-width: 1920px) {
+    width: 1440px;
+  }
+}
