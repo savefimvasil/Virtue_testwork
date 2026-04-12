@@ -14,18 +14,14 @@
   })
 
   const styleClass = computed(() => {
-    const baseClass = 'px-4 py-2 rounded whitespace-nowrap cursor-pointer'
+    const baseClass = 'px-4 py-2 rounded whitespace-nowrap cursor-pointer border'
 
     if (props.variant === 'primary') {
-      return `${baseClass} bg-teal text-white`
+      return `${baseClass} bg-teal text-white border-teal`
     }
 
     if (props.variant === 'transparent') {
-      return `${baseClass} text-primary bg-transparent text-teal border border-teal`
-    }
-
-    if (props.variant === 'underline') {
-      return `${baseClass} border-b border-teal`
+      return `${baseClass} bg-transparent text-teal border-teal`
     }
 
     return baseClass

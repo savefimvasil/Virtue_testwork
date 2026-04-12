@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
-
 import type { Suggestion } from '@/assets/types/suggestion'
 import BaseButton from '@/components/base/BaseButton.vue'
-import BaseModal from '@/components/base/BaseModal.vue'
 import BaseTable from '@/components/base/BaseTable.vue'
+import ChangeStatusModal from '@/components/modals/ChangeStatusModal.vue'
 import { ApiError, api } from '@/plugins/api'
 import { useLogging } from '@/composables/useLogging'
 
@@ -14,7 +13,7 @@ const { logError } = useLogging()
 
 const suggestions = ref<Suggestion[]>([])
 const errorMessage = ref('')
-const selectedSuggestionId = ref<string | null>(null)
+const selectedSuggestion = ref<Suggestion | null>(null)
 const isStatusModalOpen = ref(false)
 
 const employeeId = computed(() => String(route.params.employeeId ?? ''))
@@ -28,18 +27,39 @@ const headers = {
   actions: 'Actions',
 }
 
-const openStatusModal = (suggestionId: string) => {
-  selectedSuggestionId.value = suggestionId
+const openStatusModal = (suggestion: Suggestion) => {
+  selectedSuggestion.value = suggestion
   isStatusModalOpen.value = true
 }
 
 const closeStatusModal = () => {
   isStatusModalOpen.value = false
-  selectedSuggestionId.value = null
+  selectedSuggestion.value = null
 }
 
-const confirmStatusModal = () => {
-  closeStatusModal()
+const confirmStatusModal = async (status: Suggestion['status']) => {
+  if (!selectedSuggestion.value) {
+    return
+  }
+
+  try {
+    const updatedSuggestion = await api<Suggestion>(`/suggestions/${selectedSuggestion.value.id}`, {
+      method: 'PUT',
+      body: JSON.stringify({ status }),
+    })
+
+    suggestions.value = suggestions.value.map((suggestion) =>
+      suggestion.id === updatedSuggestion.id ? updatedSuggestion : suggestion,
+    )
+
+    closeStatusModal()
+  } catch (error) {
+    if (error instanceof ApiError) {
+      errorMessage.value = error.message
+    }
+
+    logError(error)
+  }
 }
 
 const loadSuggestions = async () => {
@@ -48,14 +68,11 @@ const loadSuggestions = async () => {
   try {
     suggestions.value = await api<Suggestion[]>(`/employees/${employeeId.value}/suggestions`, {
       method: 'GET',
-    }).then(data => data.map(suggestion => ({
-      ...suggestion,
-      dateUpdated: new Date(suggestion.dateUpdated).toLocaleString()
-    })))
+    })
   } catch (error) {
     suggestions.value = []
 
-    if (error instanceof ApiError && error.status !== 404) {
+    if (error instanceof ApiError) {
       errorMessage.value = error.message
     }
 
@@ -69,12 +86,12 @@ const normalisedSuggestionsData = computed(() =>
     description: suggestion.description,
     priority: suggestion.priority,
     status: suggestion.status,
-    dateUpdated: suggestion.dateUpdated,
+    dateUpdated: new Date(suggestion.dateUpdated).toLocaleString(),
     actions: {
       component: BaseButton,
       props: {
         label: 'Change Status',
-        onClick: () => openStatusModal(suggestion.id),
+        onClick: () => openStatusModal(suggestion),
       },
     },
   })),
@@ -93,15 +110,11 @@ const normalisedSuggestionsData = computed(() =>
       {{ errorMessage || 'No suggestions found.' }}
     </p>
 
-    <BaseModal
-      v-if="isStatusModalOpen"
-      title="Change suggestion status"
+    <ChangeStatusModal
+      v-if="isStatusModalOpen && selectedSuggestion"
+      :suggestion="selectedSuggestion"
       @close="closeStatusModal"
       @ok="confirmStatusModal"
-    >
-      <p>
-        Suggestion ID: {{ selectedSuggestionId }}
-      </p>
-    </BaseModal>
+    />
   </div>
 </template>

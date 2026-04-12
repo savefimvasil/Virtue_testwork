@@ -22,6 +22,10 @@ const router = createRouter({
       path: '/employee/:employeeId',
       name: 'employee',
       component: () => import('../views/EmployeeView.vue'),
+      redirect: (to) => ({
+        name: 'employee-suggestions',
+        params: { employeeId: to.params.employeeId },
+      }),
       children: [
         {
           path: 'suggestions',

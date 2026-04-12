@@ -16,7 +16,7 @@ export class EmployeesController {
 
   @Get(':employeeId')
   getEmployeeById(@Param('employeeId') employeeId: string) {
-    return this.employeesService.getEmployeeById(employeeId)
+    return this.employeesService.getEmployeeById(employeeId);
   }
 
   @Get(':employeeId/suggestions')
