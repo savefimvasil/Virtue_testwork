@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router'
 
 import BaseCard from '@/components/base/BaseCard.vue'
 import BaseTable from '@/components/base/BaseTable.vue'
-import RiskLevelBadge from '@/components/employees/RiskLevelBadge.vue'
+import LevelBadge from '@/components/LevelBadge.vue'
 import type { Employee } from '@/assets/types/employee'
 import { ApiError, api } from '@/plugins/api'
 import { useLogging } from '@/composables/useLogging'
@@ -30,7 +30,7 @@ const tableData = computed(() =>
     name: employee.name,
     department: employee.department,
     riskLevel: {
-      component: RiskLevelBadge,
+      component: LevelBadge,
       props: {
         level: employee.riskLevel,
       },

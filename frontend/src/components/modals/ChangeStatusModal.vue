@@ -40,7 +40,7 @@ watch(
 
       <p>
         Current status:
-        <span class="font-medium capitalize text-text-primary">
+        <span class="font-medium text-text-primary">
           {{ suggestion.status }}
         </span>
       </p>

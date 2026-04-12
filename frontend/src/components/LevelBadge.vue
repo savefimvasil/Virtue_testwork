@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-import type { EmployeeRiskLevel } from '@/assets/types/employee'
-
 const props = defineProps<{
-  level: EmployeeRiskLevel
+  level: 'low' | 'medium' | 'high'
 }>()
 
 const toneClass = computed(() => {

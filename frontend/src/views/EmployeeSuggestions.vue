@@ -7,6 +7,7 @@ import BaseTable from '@/components/base/BaseTable.vue'
 import ChangeStatusModal from '@/components/modals/ChangeStatusModal.vue'
 import { ApiError, api } from '@/plugins/api'
 import { useLogging } from '@/composables/useLogging'
+import LevelBadge from '@/components/LevelBadge.vue'
 
 const route = useRoute()
 const { logError } = useLogging()
@@ -84,7 +85,12 @@ const normalisedSuggestionsData = computed(() =>
   suggestions.value.map((suggestion) => ({
     type: suggestion.type,
     description: suggestion.description,
-    priority: suggestion.priority,
+    priority: {
+      component: LevelBadge,
+        props: {
+        level: suggestion.priority,
+      },
+    },
     status: suggestion.status,
     dateUpdated: new Date(suggestion.dateUpdated).toLocaleString(),
     actions: {
