@@ -66,33 +66,31 @@ const loadEmployee = async () => {
     loading-message="Loading employee..."
   >
     <template #content>
-      <div class="space-y-6">
-        <div class="flex flex-wrap items-center gap-3 border-b border-border pb-4">
-          <BaseButton
-            v-for="tab in tabs"
-            :key="tab.label"
-            :variant="route.name === tab.to.name ? 'primary' : 'transparent'"
-            :url="router.resolve(tab.to).href"
-            :label="tab.label"
-          />
-        </div>
+      <div v-if="employee" class="space-y-6 pb-4 mb-4 border-b border-border">
+        <div class="flex flex-wrap gap-6 text-sm text-text-secondary">
+          <p>
+            Department:
+            <span class="font-medium">{{ employee.department }}</span>
+          </p>
 
-        <div v-if="employee" class="space-y-6">
-          <div class="flex flex-wrap gap-6 text-sm text-text-secondary">
-            <p>
-              Department:
-              <span class="font-medium">{{ employee.department }}</span>
-            </p>
-
-            <p>
-              Risk level:
-              <span class="font-medium capitalize">{{ employee.riskLevel }}</span>
-            </p>
-          </div>
-
-          <RouterView />
+          <p>
+            Risk level:
+            <span class="font-medium capitalize">{{ employee.riskLevel }}</span>
+          </p>
         </div>
       </div>
+
+      <div class="flex flex-wrap items-center gap-3 pb-4 mb-4 border-b border-border">
+        <BaseButton
+          v-for="tab in tabs"
+          :key="tab.label"
+          :variant="route.name === tab.to.name ? 'primary' : 'transparent'"
+          :url="router.resolve(tab.to).href"
+          :label="tab.label"
+        />
+      </div>
+
+      <RouterView />
     </template>
 
     <template #error v-if="errorMessage">

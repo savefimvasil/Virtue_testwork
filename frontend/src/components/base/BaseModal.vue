@@ -25,9 +25,9 @@ const emit = defineEmits<{
 
         <div class="flex justify-end gap-3">
           <BaseButton
-            label="Close"
+            label="Cancel"
             variant="transparent"
-            :on-click="() => emit('close')"
+            :on-click="() => emit('cancel')"
           />
           <BaseButton
             label="Ok"

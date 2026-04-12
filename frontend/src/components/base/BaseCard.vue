@@ -16,7 +16,7 @@ const hasErrorSlotContent = computed(() => {
 
 <template>
   <div class="bg-white rounded-lg px-5 py-6">
-    <h2 v-if="title" class="mb-6">{{ title }}</h2>
+    <h2 v-if="title" class="mb-4 text-3xl">{{ title }}</h2>
 
     <p v-if="isLoading" class="text-text-secondary">
       {{ loadingMessage ?? 'Loading...' }}

@@ -119,7 +119,7 @@ const normalisedSuggestionsData = computed(() =>
     <ChangeStatusModal
       v-if="isStatusModalOpen && selectedSuggestion"
       :suggestion="selectedSuggestion"
-      @close="closeStatusModal"
+      @cancel="closeStatusModal"
       @ok="confirmStatusModal"
     />
   </div>

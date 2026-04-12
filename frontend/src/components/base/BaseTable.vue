@@ -37,7 +37,7 @@ const getCellProps = (value: TableCell) => (isComponentCell(value) ? (value as T
 <template>
   <div class="overflow-hidden">
     <table class="min-w-full divide-y divide-border bg-white">
-      <thead>
+      <thead class="bg-surface">
         <tr>
           <th
             v-for="column in columns"

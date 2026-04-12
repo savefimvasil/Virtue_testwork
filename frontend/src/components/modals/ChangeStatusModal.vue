@@ -10,7 +10,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  close: []
+  cancel: []
   ok: [status: SuggestionStatus]
 }>()
 
@@ -30,10 +30,10 @@ watch(
 <template>
   <BaseModal
     title="Change suggestion status"
-    @close="emit('close')"
+    @cancel="emit('cancel')"
     @ok="emit('ok', selectedStatus)"
   >
-    <div class="space-y-4">
+    <div class="space-y-3">
       <p>
         Suggestion: "{{ suggestion.description }}"
       </p>
@@ -45,7 +45,7 @@ watch(
         </span>
       </p>
 
-      <p>Do you want to change status?</p>
+      <p>Select new status and click "OK", or close this modal.</p>
 
       <div class="flex flex-wrap gap-2">
         <BaseButton
