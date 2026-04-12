@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import { RouterView, useRoute, useRouter } from 'vue-router'
 
 import type { Employee } from '@/assets/types/employee'
@@ -61,7 +61,7 @@ const loadEmployee = async () => {
 
 <template>
   <BaseCard
-    :title="employee?.name ?? 'Employee details'"
+    :title="employee?.name"
     :is-loading="isLoading"
     loading-message="Loading employee..."
   >
@@ -71,7 +71,7 @@ const loadEmployee = async () => {
           <BaseButton
             v-for="tab in tabs"
             :key="tab.label"
-            :style="route.name === tab.to.name ? 'primary' : 'transparent'"
+            :variant="route.name === tab.to.name ? 'primary' : 'transparent'"
             :url="router.resolve(tab.to).href"
             :label="tab.label"
           />

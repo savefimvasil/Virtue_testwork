@@ -3,26 +3,28 @@
   import { computed } from 'vue'
 
   const props = withDefaults(defineProps<{
-    style?: 'primary' | 'transparent' | 'underline'
+    variant?: 'primary' | 'transparent' | 'underline'
     label: string
     url?: string
+    onClick?: () => void
   }>(), {
-    style: 'primary',
+    variant: 'primary',
     url: undefined,
+    onClick: undefined,
   })
 
   const styleClass = computed(() => {
-    const baseClass = 'px-4 py-2 rounded'
+    const baseClass = 'px-4 py-2 rounded whitespace-nowrap cursor-pointer'
 
-    if (props.style === 'primary') {
+    if (props.variant === 'primary') {
       return `${baseClass} bg-teal text-white`
     }
 
-    if (props.style === 'transparent') {
+    if (props.variant === 'transparent') {
       return `${baseClass} text-primary bg-transparent text-teal border border-teal`
     }
 
-    if (props.style === 'underline') {
+    if (props.variant === 'underline') {
       return `${baseClass} border-b border-teal`
     }
 
@@ -35,6 +37,7 @@
     :is="url ? RouterLink : 'button'"
     :to="url || undefined"
     :class="styleClass"
+    @click="props.onClick?.()"
   >
     {{ label }}
   </component>
