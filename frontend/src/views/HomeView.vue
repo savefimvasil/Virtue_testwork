@@ -17,13 +17,16 @@ const errorMessage = ref('')
 const router = useRouter()
 const { logError } = useLogging()
 
-const headers = {
-  name: 'Name',
-  department: 'Department',
-  riskLevel: 'Risk level',
-  pendingSuggestionsCount: 'Pending suggestions',
-  actions: 'Actions',
-}
+const headers = computed(() => {
+  return {
+    name: 'Name',
+    department: 'Department',
+    riskLevel: 'Risk level',
+    pendingSuggestionsCount:
+      `Pending suggestions (${employees.value.reduce((acc, employee) => acc + employee.pendingSuggestionsCount, 0)})`,
+    actions: 'Actions',
+  }
+})
 
 const tableData = computed(() =>
   employees.value.map((employee) => ({
