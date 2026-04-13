@@ -25,6 +25,8 @@ export const useEmployees = () => {
 
       if (error instanceof ApiError) {
         errorMessage.value = error.message
+      } else {
+        errorMessage.value = 'Failed to load employees'
       }
 
       logError(error)
@@ -46,6 +48,8 @@ export const useEmployees = () => {
 
       if (error instanceof ApiError) {
         errorMessage.value = error.message
+      } else {
+        errorMessage.value = 'Failed to load employee'
       }
 
       logError(error)

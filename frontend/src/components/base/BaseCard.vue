@@ -10,7 +10,7 @@ defineProps<{
 const slots = useSlots()
 
 const hasErrorSlotContent = computed(() => {
-  return slots.error?.length
+  return !!slots.error?.().length
 })
 </script>
 
