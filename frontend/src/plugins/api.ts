@@ -53,7 +53,6 @@ const parseResponse = async (response: Response) => {
 export const api = async <T>(path: string, init?: RequestInit) => {
   const { setError } = useAppError()
 
-  console.log(init)
   const response = await fetch(`${import.meta.env.VITE_API_URL}${path}`, {
     headers: {
       Accept: 'application/json',
