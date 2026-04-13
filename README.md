@@ -7,6 +7,7 @@
   - `npm run start:dev`
 - frontend
   - `npm i`
+  - copy content of `.env.example` to `.env`
   - `npm run dev`
 
 in `/backend` and `/frontend` directories I still have default readmes from frameworks, are all details there.
