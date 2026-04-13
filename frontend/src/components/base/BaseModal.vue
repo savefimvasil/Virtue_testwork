@@ -27,7 +27,7 @@ const emit = defineEmits<{
           <BaseButton
             label="Cancel"
             variant="transparent"
-            :on-click="() => emit('cancel')"
+            :on-click="() => emit('close')"
           />
           <BaseButton
             label="Ok"

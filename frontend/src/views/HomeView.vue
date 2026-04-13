@@ -1,21 +1,15 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 
 import BaseCard from '@/components/base/BaseCard.vue'
 import BaseTable from '@/components/base/BaseTable.vue'
 import LevelBadge from '@/components/LevelBadge.vue'
-import type { Employee } from '@/assets/types/employee'
-import { ApiError, api } from '@/plugins/api'
-import { useLogging } from '@/composables/useLogging'
 import BaseButton from '@/components/base/BaseButton.vue'
-
-const employees = ref<Employee[]>([])
-const isLoading = ref(false)
-const errorMessage = ref('')
+import { useEmployees } from '@/composables/useEmployees'
 
 const router = useRouter()
-const { logError } = useLogging()
+const { employees, isLoading, errorMessage, loadEmployees } = useEmployees()
 
 const headers = computed(() => {
   return {
@@ -50,25 +44,6 @@ const tableData = computed(() =>
     }
   }).sort((a, b) => a.name.localeCompare(b.name))
 )
-
-const loadEmployees = async () => {
-  isLoading.value = true
-  errorMessage.value = ''
-
-  try {
-    employees.value = await api<Employee[]>('/employees', {
-      method: 'GET',
-    })
-  } catch (error) {
-    if (error instanceof ApiError) {
-      errorMessage.value = error.message
-    }
-
-    logError(error)
-  } finally {
-    isLoading.value = false
-  }
-}
 
 ;(() => {
   loadEmployees()

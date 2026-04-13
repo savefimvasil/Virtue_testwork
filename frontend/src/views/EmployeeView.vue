@@ -1,20 +1,14 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { RouterView, useRoute, useRouter } from 'vue-router'
 
-import type { Employee } from '@/assets/types/employee'
 import BaseCard from '@/components/base/BaseCard.vue'
-import { api, ApiError } from '@/plugins/api'
-import { useLogging } from '@/composables/useLogging'
 import BaseButton from '@/components/base/BaseButton.vue'
+import { useEmployees } from '@/composables/useEmployees'
 
 const route = useRoute()
 const router = useRouter()
-const { logError } = useLogging()
-
-const employee = ref<Employee | null>(null)
-const isLoading = ref(false)
-const errorMessage = ref('')
+const { employee, isLoading, errorMessage, loadEmployeeById } = useEmployees()
 
 const employeeId = computed(() => String(route.params.employeeId ?? ''))
 
@@ -35,27 +29,8 @@ const tabs = computed(() => [
   },
 ])
 
-const loadEmployee = async () => {
-  isLoading.value = true
-  errorMessage.value = ''
-
-  try {
-    employee.value = await api<Employee>(`/employees/${employeeId.value}`, {
-      method: 'GET',
-    })
-  } catch (error) {
-    if (error instanceof ApiError) {
-      errorMessage.value = error.message
-    }
-
-    logError(error)
-  } finally {
-    isLoading.value = false
-  }
-}
-
 ;(() => {
-  loadEmployee()
+  loadEmployeeById(employeeId.value)
 })()
 </script>
 
