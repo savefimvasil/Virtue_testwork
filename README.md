@@ -50,7 +50,7 @@ in `/backend` and `/frontend` directories I still have default readmes from fram
 - Add backend tests 
 - Add a database instead of in-memory data 
 - Increase test coverage on the frontend, including component tests and snapshot tests 
-- Improve UI quality and polish 
+- Improve UI quality and polish. Better mobile support, hovers etc
 - Make suggestions fully editable 
 - Improve some TypeScript typings and overall type safety
 
