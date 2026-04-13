@@ -92,7 +92,13 @@ const normalisedSuggestionsData = computed(() =>
       },
     },
     status: suggestion.status,
-    dateUpdated: new Date(suggestion.dateUpdated).toLocaleString(),
+    dateUpdated: new Date(suggestion.dateUpdated).toLocaleString([], {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    }),
     actions: {
       component: BaseButton,
       props: {

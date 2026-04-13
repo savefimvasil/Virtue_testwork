@@ -6,7 +6,7 @@ defineProps<{
 }>()
 
 const emit = defineEmits<{
-  close: []
+  cancel: []
   ok: []
 }>()
 </script>
@@ -27,7 +27,7 @@ const emit = defineEmits<{
           <BaseButton
             label="Cancel"
             variant="transparent"
-            :on-click="() => emit('close')"
+            :on-click="() => emit('cancel')"
           />
           <BaseButton
             label="Ok"

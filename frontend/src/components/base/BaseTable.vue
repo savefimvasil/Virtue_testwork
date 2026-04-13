@@ -35,14 +35,14 @@ const getCellProps = (value: TableCell) => (isComponentCell(value) ? (value as T
 </script>
 
 <template>
-  <div class="overflow-hidden">
+  <div class="overflow-x-auto lg:overflow-visible">
     <table class="min-w-full divide-y divide-border bg-white">
       <thead class="bg-surface">
         <tr>
           <th
             v-for="column in columns"
             :key="column.key"
-            class="px-4 py-3 text-left text-xs font-semibold uppercase text-text-secondary"
+            class="px-4 py-3 text-left text-xs font-semibold uppercase text-text-secondary whitespace-nowrap"
           >
             {{ column.label }}
           </th>
@@ -54,7 +54,7 @@ const getCellProps = (value: TableCell) => (isComponentCell(value) ? (value as T
           <td
             v-for="column in columns"
             :key="column.key"
-            class="px-4 py-4 text-sm"
+            class="px-4 py-4 text-sm align-top"
           >
             <component
               :is="getCellComponent(row[column.key])"
